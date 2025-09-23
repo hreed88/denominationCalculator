@@ -1,11 +1,11 @@
 make:
-	gcc -shared -fPIC -o /lib/libChangeMachine.so changeMachine.c
+	gcc -shared -fPIC -o ./lib/libChangeMachine.so changeMachine.c
 	g++ main.cpp -g -Wall -L./lib/ -lChangeMachine -Wl,-rpath='$$ORIGIN/lib' -o changeMachine
 
-make so:
-	gcc -shared -fPIC -o /lib/libChangeMachine.so changeMachine.c
+so:
+	gcc -shared -fPIC -o ./lib/libChangeMachine.so changeMachine.c
 
-make cpp:
+cpp:
 	g++ main.cpp -g -Wall -L./lib/ -lChangeMachine -Wl,-rpath='$$ORIGIN/lib' -o changeMachine
 
 # make: 
@@ -18,4 +18,4 @@ make cpp:
 clean:
 	rm -f *.o changeMachine
 	rm -f *.txt
-# 	rm -rf ./lib/ 
+	rm -f ./lib/*
