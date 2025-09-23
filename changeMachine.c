@@ -140,7 +140,6 @@ int run1(){
     
 
     while(true){
-        //*left, *right = 0;
         bool inputCorrect = false;
 
         while(!inputCorrect){
@@ -166,9 +165,6 @@ int run1(){
 
             //break up both sides into respective strings
             int inputResult = sscanf(buffer, "%[0-9].%2[0-9]", leftString, rightString);
-            // printf("\nLeft %s\n", leftString);
-            // printf("\nRight %s\n", rightString);
-            // printf("\nInput Result %d\n", inputResult);
             //check for malformed input
             //if sscanf doesnt produce 2 this means that it was unable to match the expected input
             if(inputResult == 2){
@@ -181,11 +177,6 @@ int run1(){
                 printf("\nERROR INPUT IS MALFORMED!\nInput must be a positve number and in the form *.XX\n\n");
                 continue;
             }
-
-            printf("\nleft side = %lld\n", *left);
-            printf("\nright side = %d\n", *right);
-            printf("\nBuffer result %s \n", buffer);
-            //int inputResult = sscanf(buffer, " %lld.%2d", left, right);
             
     
         }
@@ -224,7 +215,7 @@ int run2(char* uInput){
     unsigned int * right = malloc(sizeof(unsigned int));
     char leftString[64];
     char rightString[8];
-    printf("\n%s\n", uInput);
+
     int inputResult = sscanf(uInput, "%[0-9].%2[0-9]", leftString, rightString);
 
     //check if the input is valid
