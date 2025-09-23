@@ -1,12 +1,12 @@
 make:
-	gcc -shared -fPIC -o ./lib/libChangeMachine.so changeMachine.c
-	g++ main.cpp -g -Wall -L./lib/ -lChangeMachine -Wl,-rpath='$$ORIGIN/lib' -o changeMachine
+	gcc -shared -I./include/ -fPIC -o ./lib/libChangeMachine.so ./src/changeMachine.c
+	g++ main.cpp -g -Wall -I./include/ -L./lib/ -lChangeMachine -Wl,-rpath='$$ORIGIN/lib' -o changeMachine
 
 so:
-	gcc -shared -fPIC -o ./lib/libChangeMachine.so changeMachine.c
+	gcc -shared -I./include/ -fPIC -o ./lib/libChangeMachine.so /src/changeMachine.c
 
 cpp:
-	g++ main.cpp -g -Wall -L./lib/ -lChangeMachine -Wl,-rpath='$$ORIGIN/lib' -o changeMachine
+	g++ main.cpp -g -Wall -I./include/ -L./lib/ -lChangeMachine -Wl,-rpath='$$ORIGIN/lib' -o changeMachine
 
 # make: 
 # 	gcc -g -Wall main.c changeMachine.c -o changeMachine
