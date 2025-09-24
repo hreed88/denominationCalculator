@@ -9,7 +9,7 @@ IMGUI_SRC = $(IMGUI_DIR)/imgui.cpp \
 
 make:
 	gcc -shared -I./include/ -fPIC -o ./lib/libChangeMachine.so ./src/changeMachine.c
-	g++ main.cpp $(IMGUI_SRC) -g -Wall -I./include/ -I$(IMGUI_DIR) -I$(BACKEND) -lGL -lglfw -L./lib/ -lChangeMachine -Wl,-rpath='$$ORIGIN/lib' -o changeMachine
+	g++ main.cpp gui.cpp $(IMGUI_SRC) -g -Wall -I./include/ -I$(IMGUI_DIR) -I$(BACKEND) -lGL -lglfw -L./lib/ -lChangeMachine -Wl,-rpath='$$ORIGIN/lib' -o changeMachine
 
 so:
 	gcc -shared -I./include/ -fPIC -o ./lib/libChangeMachine.so /src/changeMachine.c

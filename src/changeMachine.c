@@ -102,6 +102,12 @@ void printDenominations(denominationResult denomArr){
 //Output: updates pointers, and returns a bool based on if conversions are valid
 bool convertToNums(unsigned long long * left, unsigned int * right, char leftString[], char rightString[]){
         char *posPtr;
+        //check if rightString is only size of 1. indicating a zero was not added
+        //if so pad an extra zero to the back
+        if(strlen(rightString) == 1){
+            rightString[strlen(rightString)] = '0';
+            rightString[strlen(rightString)+1] = '\0';
+        }
         //ensure errno is set to 0 before each strto
         errno = 0;
         //convert left side to ulong long (string to unsigned long long)
@@ -109,11 +115,11 @@ bool convertToNums(unsigned long long * left, unsigned int * right, char leftStr
         //check for overflow or underflow
         if(errno == ERANGE){
             if(*left == ULLONG_MAX){
-                printf("\nERROR OVERFLOW DETECTED! Input is out of range!\n");
+                fprintf(stderr, "\nERROR OVERFLOW DETECTED! Input is out of range!\n");
             }else {
             //else we have underflow
             //note underflow shouldn't happen regardless because of sscanf
-            printf("\nERROR UNDERFLOW DETECTED! Input is out of range!\n");
+           fprintf(stderr,"\nERROR UNDERFLOW DETECTED! Input is out of range!\n");
             }
             return false;
         }
@@ -123,10 +129,10 @@ bool convertToNums(unsigned long long * left, unsigned int * right, char leftStr
         //note underflow and overflow shouldn't happen regardless because of sscanf
         if(errno == ERANGE){
             if(*right == UINT_MAX){
-                printf("\nERROR OVERFLOW DETECTED! Input is out of range!\n");
+                fprintf(stderr,"\nERROR OVERFLOW DETECTED! Input is out of range!\n");
             }else{
             //else we have underflow
-            printf("\nERROR UNDERFLOW DETECTED! Input is out of range!\n");
+            fprintf(stderr,"\nERROR UNDERFLOW DETECTED! Input is out of range!\n");
             }
             return false;
         }
@@ -154,7 +160,7 @@ int run1(){
             if(fgets(buffer, sizeof(buffer), stdin) != NULL){
                 //input is larger than our buffer so clear the stdin and ask user for input again
                 if(buffer[strlen(buffer) - 1] != '\n'){
-                    printf("\nERROR! Buffer Overflow Detected!\n");
+                    fprintf(stderr,"\nERROR! Buffer Overflow Detected!\n");
                     //clear the rest of the stdin
                     char c = 'n';
                     while(c != '\n' && c != EOF){
@@ -164,7 +170,7 @@ int run1(){
                 }   
             }else{
                 //fgets failed retry
-                printf("\nError getting input\n");
+                fprintf(stderr,"\nError getting input\n");
                 continue;
             }
 
@@ -179,7 +185,7 @@ int run1(){
                 }
                 inputCorrect = true;
             }else{
-                printf("\nERROR INPUT IS MALFORMED!\nInput must be a positve number and in the form *.XX\n\n");
+                fprintf(stderr,"\nERROR INPUT IS MALFORMED!\nInput must be a positve number and in the form *.XX\n\n");
                 continue;
             }
             
@@ -225,7 +231,7 @@ int run2(char* uInput){
 
     //check if the input is valid
     if(inputResult != 2){
-        printf("\nERROR INPUT IS MALFORMED!\nInput must be a positve number and in the form *.XX\n\n");
+        fprintf(stderr,"\nERROR INPUT IS MALFORMED!\nInput must be a positve number and in the form *.XX\n\n");
         return 2;
     }else{
     
@@ -254,8 +260,8 @@ denominationResult run3(char* uInput){
     unsigned long long * left = malloc(sizeof(unsigned long long));
     unsigned int * right = malloc(sizeof(unsigned int));
     denominationResult result;
-    char leftString[64];
-    char rightString[8];
+    char leftString[64] = "";
+    char rightString[8] = "";
 
     int inputResult = sscanf(uInput, "%[0-9].%2[0-9]", leftString, rightString);
     
@@ -263,7 +269,7 @@ denominationResult run3(char* uInput){
        free(left);
        free(right);
        //just return all zero's
-       result.oneHundred = 0;
+       result.oneHundred = -1;
        result.denominations = malloc(sizeof(unsigned int) * 10);
        memset(result.denominations, 0, sizeof(unsigned int) * 10);
        return result;
