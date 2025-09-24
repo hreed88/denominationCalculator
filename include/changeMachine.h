@@ -16,6 +16,7 @@ extern "C"{
     bool convertToNums(unsigned long long * left, unsigned int * right, char leftString[], char rightString[]);
     int run1();
     int run2(char* uInput);
+    denominationResult run3(char* uInput);
     #ifdef __cplusplus
 }
 #endif

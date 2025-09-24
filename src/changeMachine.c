@@ -8,15 +8,17 @@
 
 #include "changeMachine.h"
 
+
+//used in printDenominations
 char *stringArr[] = {"%lld $100 Bill(s)\n", "%d $50 Bill(s)\n","%d $20 Bill(s)\n","%d $10 Bill(s)\n","%d $5 Bill(s)\n","%d $2 Bill(s)\n",
                      "%d $1 Bill(s)\n","%d Quarter(s)\n","%d Dime(s)\n","%d Nickel(s)\n","%d Pennie(s)\n"};
 
-// input: use unsgined long long to represent the "integer" part of the number
+//input: use unsgined long long to represent the "integer" part of the number
 //       use unsigned int for fractional part of the number since we only need to represent 0 - 99
 //output: output struct that contains an int* array
-//                  (these are for smaller denominations since they will likely stay in the int range)
-//        and a unsigned long long to hold the 100s denominations since this will a number comaprable to input
-//Should use a greedy approach since we want largest to smallest denominations
+//        (these are for smaller denominations since they will likely stay in the int range)
+//        and a unsigned long long to hold the 100s denominations since this will be a number comaprable to input
+//Notes: Should use a greedy approach since we want largest to smallest denominations
 denominationResult calculateDenominations(unsigned long long * left, unsigned int * right){
 
     static denominationResult myResult;
@@ -77,7 +79,6 @@ denominationResult calculateDenominations(unsigned long long * left, unsigned in
     myResult.denominations[9] = *right;
 
 
-
     return myResult;
 
 }
@@ -96,6 +97,9 @@ void printDenominations(denominationResult denomArr){
 }
 
 //Description: Function to convert strings to nums, with overflow and underflow handling
+//Input: left/right are pointers so we can store converted numbers
+//       leftString/rightString, contain strings of numbers left and right of decimal respectivly
+//Output: updates pointers, and returns a bool based on if conversions are valid
 bool convertToNums(unsigned long long * left, unsigned int * right, char leftString[], char rightString[]){
         char *posPtr;
         //ensure errno is set to 0 before each strto
@@ -126,6 +130,7 @@ bool convertToNums(unsigned long long * left, unsigned int * right, char leftStr
             }
             return false;
         }
+        //return true if we make it all the way through
         return true;
 }
 
@@ -241,4 +246,33 @@ int run2(char* uInput){
     free(left);
     free(right);
     return 0;
+}
+
+//used to calculate the denominations when gui flag is set
+denominationResult run3(char* uInput){
+
+    unsigned long long * left = malloc(sizeof(unsigned long long));
+    unsigned int * right = malloc(sizeof(unsigned int));
+    denominationResult result;
+    char leftString[64];
+    char rightString[8];
+
+    int inputResult = sscanf(uInput, "%[0-9].%2[0-9]", leftString, rightString);
+    
+    if(!convertToNums(left, right, leftString, rightString)){
+       free(left);
+       free(right);
+       //just return all zero's
+       result.oneHundred = 0;
+       result.denominations = malloc(sizeof(unsigned int) * 10);
+       memset(result.denominations, 0, sizeof(unsigned int) * 10);
+       return result;
+    }
+    
+    result = calculateDenominations(left, right);
+    
+    //free malloced memory, result.denominations will be freed in startGuiApplication
+    free(left);
+    free(right);
+    return result;
 }

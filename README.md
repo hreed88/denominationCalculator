@@ -7,6 +7,7 @@
     ```console
     $ sudo apt-get update
     $ sudo apt install build-essential
+    $ sudo apt-get install libglfw3-dev
     ```
 
   - ### Fedora/REHL
@@ -33,7 +34,7 @@
 ---
 
 # Usage
-- ## Run with command line arguments
+- ## Run with command line arguments (\<dollarInput> / -g)
   ```console
   $ ./changeMachine <dollarInput>
   ```
@@ -42,7 +43,13 @@
       - Where 
         - '*' is any integer [0-9] any amount of times
         - '.' is the "decimal place" delimiter
-        - 'XX' is any integer [0-99]
+        - 'XX' is any integer [0-99]  
+  
+  ```console
+  $ ./changeMachine -g
+  ```
+  - Runs the program with a gui
+    - Interactive input, output updates dynamically
 - ## Run without command line arguments
   ```console
   $ ./changeMachine
