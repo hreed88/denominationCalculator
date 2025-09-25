@@ -6,9 +6,10 @@
 ---
 # Prerequisites
 - ## Linux (gcc, g++, glfw3)
-  
+  ***Alternativly you can use the noGUI branch which only requires gcc and g++***
   - ### Install Script
     **Installs all necesary components for building the binary**
+
     ```bash
     chmod +x install.sh #only neccesary if running ./install.sh gives permission denied error
     ./install.sh
