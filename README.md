@@ -21,7 +21,7 @@
     ```bash
     sudo apt-get update
     sudo apt install build-essential
-    sudo apt-get install libglfw3-dev #Note this is only neccesary if you wish to recompile the program
+    sudo apt-get install libglfw3-dev #Contains Header files for glfw
     sudo apt-get install libglfw3 #Contains the .so file for the program
     ```
 
@@ -69,3 +69,4 @@
   - Program will run indefinitly (Maybe), until user decides to exit.
 
 ---
+
