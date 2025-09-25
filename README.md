@@ -34,7 +34,7 @@
 ---
 
 # Build 
-**Note binary comes prebuilt in repository. However it is built with glibc 2.38, if your version is older then this you must rebuild the binary.**
+
  - ## Linux
     - Run "make" to build binary
     - Run "make clean" to clean up build files
