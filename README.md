@@ -13,6 +13,8 @@
     ```bash
     chmod +x install.sh #only neccesary if running ./install.sh gives permission denied error
     ./install.sh
+    # OR
+    bash install.sh
     ``` 
 
   - ### Debian/Ubuntu
