@@ -7,15 +7,6 @@
 # Prerequisites
 
 - ## Linux (gcc, g++)
-  - ### Install Script
-    Installs all necessary components for building the binary:
-
-    ```bash
-    chmod +x install.sh   # Only necessary if running ./install.sh gives "permission denied"
-    ./install.sh
-    # OR
-    bash install.sh
-    ```
 
   - ### Debian/Ubuntu
     ```bash
@@ -60,3 +51,4 @@
   - Program will prompt the user for input (Same as with command line arguments).
   - Program will run indefinitly (Maybe), until user decides to exit.
 ---
+
