@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include <string.h>
 
 #include <errno.h>
@@ -10,7 +9,7 @@
 
 
 //used in printDenominations
-char *stringArr[] = {"%lld $100 Bill(s)\n", "%d $50 Bill(s)\n","%d $20 Bill(s)\n","%d $10 Bill(s)\n","%d $5 Bill(s)\n","%d $2 Bill(s)\n",
+char *stringArr[] = {"%lld $100 Bill(s)\n", "%d $50 Bill(s)\n","%d $20 Bill(s)\n","%d $10 Bill(s)\n","%d $5 Bill(s)\n",
                      "%d $1 Bill(s)\n","%d Quarter(s)\n","%d Dime(s)\n","%d Nickel(s)\n","%d Pennie(s)\n"};
 
 //input: use unsgined long long to represent the "integer" part of the number
@@ -21,63 +20,31 @@ char *stringArr[] = {"%lld $100 Bill(s)\n", "%d $50 Bill(s)\n","%d $20 Bill(s)\n
 //Notes: Should use a greedy approach since we want largest to smallest denominations
 denominationResult calculateDenominations(unsigned long long * left, unsigned int * right){
 
+    int intArr[9] = {50,20,10,5,1,25,10,5,1};
+
     static denominationResult myResult;
     myResult.oneHundred = 0;
-    myResult.denominations = malloc(sizeof(unsigned int) * 10);
+    myResult.denominations = malloc(sizeof(unsigned int) * 9);
 
     //calculate 100's
+    //keep this out of the loop since we are storing to a different location
     myResult.oneHundred = *left / 100LL;
     //update current num now
     *left %= 100LL;
-    
-    //calculate 50's 
-    myResult.denominations[0] = *left / 50;
-    //update current num
-    *left %= 50;
 
-    //calculate 20's
-    myResult.denominations[1] = *left / 20;
-    //update current num
-    *left %= 20;
-
-    //calculate 10's
-    myResult.denominations[2] = *left / 10;
-    //update current num
-    *left %= 10;
-
-    //calculate 5's
-    myResult.denominations[3] = *left / 5;
-    //update current num
-    *left %= 5;
-
-    //calculate 2's
-    myResult.denominations[4] = *left / 2;
-    //update current num
-    *left %= 2;
-
-    //finaly 1's
-    //no division should be necessary at this point
-    myResult.denominations[5] = *left;
-
-    //now for fractional part
-    //calculate 0.25's
-    myResult.denominations[6] = *right / 25;
-    //update current num
-    *right %= 25;
-
-    //calculate 10's
-    myResult.denominations[7] = *right / 10;
-    //update current num
-    *right %= 10;
-
-    //calculate 5's
-    myResult.denominations[8] = *right / 5;
-    //upadte current num
-    *right %= 5;
-
-    //same thing as before with ones, no calculation necessary
-    myResult.denominations[9] = *right;
-
+    //loop through intArr to calculate rest of denominations
+    for(int i = 0; i < (sizeof(intArr) / sizeof(int)); i++){
+        //calculate whole nums
+        if(i < 5){
+            myResult.denominations[i] = *left / intArr[i];
+            *left %= intArr[i];
+        }
+        //else calculate fractional nums
+        else{
+            myResult.denominations[i] = *right / intArr[i];
+            *right %= intArr[i];
+        }
+    }
 
     return myResult;
 
@@ -91,7 +58,7 @@ void printDenominations(denominationResult denomArr){
     printf("Your change is:\n");
     //print the 100s
     printf(stringArr[0], denomArr.oneHundred);
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 9; i++){
         printf(stringArr[i+1], denomArr.denominations[i]);
     }
 }
@@ -145,7 +112,7 @@ bool convertToNums(unsigned long long * left, unsigned int * right, char leftStr
 int run1(){
     unsigned long long * left = malloc(sizeof(unsigned long long));
     unsigned int * right = malloc(sizeof(unsigned int));
-    char leftString[64];
+    char leftString[32];
     char rightString[8];
     char buffer[64]; 
     
@@ -192,15 +159,9 @@ int run1(){
     
         }
 
-        //check how long calculation takes
-        //get new time
-        clock_t before = clock();
         denominationResult result = calculateDenominations(left, right);
-        clock_t result2_time = clock() - before;
 
         printDenominations(result);
-
-        printf("Time taken for solution 1: %ld\n", result2_time);
 
         //free denominations
         free(result.denominations);
@@ -232,6 +193,9 @@ int run2(char* uInput){
     //check if the input is valid
     if(inputResult != 2){
         fprintf(stderr,"\nERROR INPUT IS MALFORMED!\nInput must be a positve number and in the form *.XX\n\n");
+        //free left and right
+        free(left);
+        free(right);
         return 2;
     }else{
     
@@ -260,7 +224,7 @@ denominationResult run3(char* uInput){
     unsigned long long * left = malloc(sizeof(unsigned long long));
     unsigned int * right = malloc(sizeof(unsigned int));
     denominationResult result;
-    char leftString[64] = "";
+    char leftString[32] = "";
     char rightString[8] = "";
 
     int inputResult = sscanf(uInput, "%[0-9].%2[0-9]", leftString, rightString);
@@ -268,7 +232,7 @@ denominationResult run3(char* uInput){
     if(!convertToNums(left, right, leftString, rightString)){
        free(left);
        free(right);
-       //just return all zero's
+       //just return all zero's in array, and -1 in onehundred used to check for overflow
        result.oneHundred = -1;
        result.denominations = malloc(sizeof(unsigned int) * 10);
        memset(result.denominations, 0, sizeof(unsigned int) * 10);

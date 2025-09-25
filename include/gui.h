@@ -9,9 +9,6 @@
 #include <stdio.h>
 #include <string>
 
-static void glfw_error_callback(int error, const char* description){
-    fprintf(stderr, "GLFW Error %d: %s\n", error, description);
-};
 int checkUInputCallback(ImGuiInputTextCallbackData* data);
 int startGUIApplication();
 

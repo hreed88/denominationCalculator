@@ -9,7 +9,7 @@ IMGUI_SRC = $(IMGUI_DIR)/imgui.cpp \
 
 make:
 	gcc -shared -I./include/ -fPIC -o ./lib/libChangeMachine.so ./src/changeMachine.c
-	g++ main.cpp gui.cpp $(IMGUI_SRC) -g -Wall -I./include/ -I$(IMGUI_DIR) -I$(BACKEND) -lGL -lglfw -L./lib/ -lChangeMachine -Wl,-rpath='$$ORIGIN/lib' -o changeMachine
+	g++ main.cpp ./src/gui.cpp $(IMGUI_SRC) -g -Wall -I./include/ -I$(IMGUI_DIR) -I$(BACKEND) -lGL -lglfw -L./lib/ -lChangeMachine -Wl,-rpath='$$ORIGIN/lib' -o changeMachine
 
 so:
 	gcc -shared -I./include/ -fPIC -o ./lib/libChangeMachine.so /src/changeMachine.c
@@ -17,7 +17,7 @@ so:
 cpp:
 	g++ main.cpp -g -Wall -I./include/ -L./lib/ -lChangeMachine -Wl,-rpath='$$ORIGIN/lib' -o changeMachine
 
-memtest:
+memtestNoGUI:
 	make
 	valgrind ./changeMachine
 
@@ -25,3 +25,4 @@ clean:
 	rm -f *.o changeMachine
 	rm -f *.txt
 	rm -f ./lib/*
+	rm -f *.out

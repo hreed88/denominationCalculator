@@ -22,7 +22,7 @@ int main(int argc, char* argv[]){
                 break;
             //if the user gives more the one argument nothing is ran and program exits
             default:
-                perror("ERROR provide either one(Dollar ammount in the form *.XX) \nor no arguments\n");
+                fprintf(stderr,"ERROR provide either one(Dollar ammount in the form *.XX) \nor no arguments\n");
                 break;
             }
     //return code

@@ -1,7 +1,7 @@
 
 ---
 # Prerequisites
-- ## Linux (gcc)
+- ## Linux (gcc, g++, glfw3)
   
   - ### Debian/Ubuntu
     ```console
@@ -14,22 +14,17 @@
     ```console
     $ sudo dnf update
     $ sudo dnf groupinstall "Development Tools"
+    $ sudo dnf install glfw-devel
     ```
-
-- ## Windows (Clang)
-  - <a href="https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022">Download and Run Build Tools for Visual Studio </a>
-  - Select Desktop Development with C++
-  - Ensure under the "Optional" tab, Clang is selected
 
 ---
 
-# Build
+# Build 
+##### (Note binary comes prebuilt in repository)
  - ## Linux
     - Run "make" to build binary
-    - Run "make clean" to remove built binary
-    - Run "make memtest" to run the built binary with valgrind
- - ## Windows
-    - Run build.bat to build .exe
+    - Run "make clean" to clean up build files
+    - Run "make memtestNoGUI" to run the built binary with no gui with valgrind
 
 ---
 

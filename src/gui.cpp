@@ -1,6 +1,12 @@
 #include "gui.h"
 
 
+//error handling for glfw 
+static void glfw_error_callback(int error, const char* description){
+    fprintf(stderr, "GLFW Error %d: %s\n", error, description);
+};
+
+
 //globals to help with handling of UI
 bool dotInserted = false;
 int numOfDecimal = 0;
@@ -8,7 +14,7 @@ std::string prevBuff = "";
 int cursorLocation = 0;
 int length = 0;
 const char *guiStringArr[] = {"%d $50s", "%d $20s", "%d $10s", "%d $5s", 
-                            "%d $2s", "%d $1s", "%d Quarters", "%d Dimes", "%d Nickels", "%d Pennies"};
+                             "%d $1s", "%d Quarters", "%d Dimes", "%d Nickels", "%d Pennies"};
 const char *numpadArr[] = {"1" , "2" ,"3" ,"4" ,"5" ,"6" ,"7" ,"8" ,"9" ,"." ,"0"};
 //Name:checkUInputCallback  
 //Description: Handles input from InputTextWithHint, mainly concerned with maintaining proper input from user
@@ -16,7 +22,6 @@ const char *numpadArr[] = {"1" , "2" ,"3" ,"4" ,"5" ,"6" ,"7" ,"8" ,"9" ,"." ,"0
 //Output: returns 0 or 1, which tels the text box wether or not to add the character to the buffer 
 int checkUInputCallback(ImGuiInputTextCallbackData* data){
     
-
     if(data->EventFlag == ImGuiInputTextFlags_CallbackAlways){
         cursorLocation = data->CursorPos;
         length = data->BufTextLen;
@@ -26,8 +31,8 @@ int checkUInputCallback(ImGuiInputTextCallbackData* data){
     if(data->EventFlag == ImGuiInputTextFlags_CallbackEdit){
         if((int)prevBuff.size() > data->BufTextLen){
             //check for entire deletion or deletion of decimal
-            if((cursorLocation != 0 && prevBuff[cursorLocation-1] == '.') || data->BufTextLen == 0){
-                //reset number of decimals and remove dot inserted 
+            if((cursorLocation != 0 && prevBuff[cursorLocation-1] == '.') || length == 0){
+                //reset number of decimals and remove dot inserted
                 numOfDecimal = 0;
                 dotInserted = false;
             }
@@ -43,11 +48,11 @@ int checkUInputCallback(ImGuiInputTextCallbackData* data){
     //handle input
     if(data->EventFlag == ImGuiInputTextFlags_CallbackCharFilter){
 
+
         //check if length is bigger then our buffer
         //this tells the input text to not accept anything more than our buffer
-        if(length > 64)
+        if(length > 32)
             return 1;
-
         //get the character entered
         char c = data->EventChar;
 
@@ -82,7 +87,7 @@ return 1;
 //input: None 
 //Output: Return code to propigate back to main (0 ok, N something happened) 
 int startGUIApplication(){
-    char buffer[64] = "";
+    char buffer[32] = "";
     
     glfwSetErrorCallback(glfw_error_callback);
     
@@ -203,6 +208,12 @@ int startGUIApplication(){
         //we will reuse our callback to check input
         for(int i = 1; i < 12; i++){
             if(ImGui::Button(numpadArr[i-1], ImVec2(40,40))){
+                ImGuiInputTextCallbackData data1{};
+                data1.EventFlag = ImGuiInputTextFlags_CallbackAlways;
+                data1.CursorPos = strlen(buffer);
+                data1.BufTextLen = strlen(buffer);
+                checkUInputCallback(&data1);
+                
                 ImGuiInputTextCallbackData data{};
                 data.EventFlag = ImGuiInputTextFlags_CallbackCharFilter;
                 data.EventChar = numpadArr[i - 1][0];
@@ -216,22 +227,30 @@ int startGUIApplication(){
         }
         //last button is back button so it need different handling
         if(ImGui::Button("<-", ImVec2(40,40))){
-                ImGuiInputTextCallbackData data{};
-                data.EventFlag = ImGuiInputTextFlags_CallbackEdit;
-                buffer[strlen(buffer) - 1] = '\0';
-                data.Buf = buffer;
-                checkUInputCallback(&data);
+                
                 
                 ImGuiInputTextCallbackData data1{};
                 data1.EventFlag = ImGuiInputTextFlags_CallbackAlways;
                 data1.CursorPos = strlen(buffer);
                 data1.BufTextLen = strlen(buffer);
                 checkUInputCallback(&data1);
-            }
 
+                ImGuiInputTextCallbackData data{};
+                data.EventFlag = ImGuiInputTextFlags_CallbackEdit;
+                data.Buf = buffer;
+                buffer[strlen(buffer) - 1] = '\0';
+                
+                checkUInputCallback(&data);
+                
+                
+                
+                
+                
+            }
+        //end results and numpad
         ImGui::EndGroup();
         ImGui::NewLine();
-        ImGui::TextWrapped("\nINSTRUCTIONS\nYou can use the numpad or your keyboard :)\n\nInput must be in the form '*.XX'. Meaning you have as many digits to the left of a '.' and two to the right.");
+        ImGui::TextWrapped("\nINSTRUCTIONS\n-You can use the numpad or your keyboard. :)\n\n-Input must be in the form '*.XX'. Meaning you have as many digits to the left of a '.' and two to the right.\n\n-Any unexpected behavior should resolve by clicking reset.");
         ImGui::End();
         
         //render everthing in the stack

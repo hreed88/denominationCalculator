@@ -4,3 +4,4 @@
 *.out
 test.c
 main.c
+.vscode
