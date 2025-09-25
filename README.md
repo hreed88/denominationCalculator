@@ -11,7 +11,7 @@
     **Installs all necesary components for building the binary**
 
     ```bash
-    chmod +x install.sh #only neccesary if running ./install.sh gives permission denied error
+    chmod 700 install.sh #only neccesary if running ./install.sh gives permission denied error
     ./install.sh
     # OR
     bash install.sh
@@ -67,4 +67,5 @@
   ```
   - Program will prompt the user for input (Same as with command line arguments).
   - Program will run indefinitly (Maybe), until user decides to exit.
+
 ---
