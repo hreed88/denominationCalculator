@@ -10,6 +10,7 @@
   - ### Install Script
     **Installs all necesary components for building the binary**
     ```bash
+    chmod +x install.sh #only neccesary if running ./install.sh gives permission denied error
     ./install.sh
     ``` 
 

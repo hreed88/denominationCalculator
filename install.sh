@@ -16,7 +16,8 @@ fi
 echo "Detected: $DISTRO"
 
 case "$DISTRO" in
-    ubuntu|debian)
+    # Debian/Ubuntu-based distros
+    debian|ubuntu|linuxmint|elementary|pop|kali|zorin|deepin|mx|raspbian)
         echo "Updating package lists..."
         sudo apt-get update
 
@@ -30,7 +31,8 @@ case "$DISTRO" in
         sudo apt-get install -y libglfw3
         ;;
 
-    fedora|rhel|centos)
+    # Fedora/RHEL-based distros
+    fedora|rhel|centos|rocky|almalinux|oracle)
         echo "Updating packages..."
         sudo dnf update -y
 
