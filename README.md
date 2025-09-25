@@ -1,26 +1,38 @@
 
+# Description
+
+**A simple calculator with GUI, that calculates the minimum ammount of denominations in USD**
+
 ---
 # Prerequisites
 - ## Linux (gcc, g++, glfw3)
   
+  - ### Install Script
+    **Installs all necesary components for building the binary**
+    ```bash
+    ./install.sh
+    ``` 
+
   - ### Debian/Ubuntu
-    ```console
-    $ sudo apt-get update
-    $ sudo apt install build-essential
-    $ sudo apt-get install libglfw3-dev
+    ```bash
+    sudo apt-get update
+    sudo apt install build-essential
+    sudo apt-get install libglfw3-dev #Note this is only neccesary if you wish to recompile the program
+    sudo apt-get install libglfw3 #Contains the .so file for the program
     ```
 
   - ### Fedora/REHL
-    ```console
-    $ sudo dnf update
-    $ sudo dnf groupinstall "Development Tools"
-    $ sudo dnf install glfw-devel
+    ```bash
+    sudo dnf update
+    sudo dnf groupinstall "Development Tools"
+    sudo dnf install glfw
+    sudo dnf install glfw-devel
     ```
 
 ---
 
 # Build 
-##### (Note binary comes prebuilt in repository)
+**Note binary comes prebuilt in repository. However it is built with glibc 2.38, if your version is older then this you must rebuild the binary.**
  - ## Linux
     - Run "make" to build binary
     - Run "make clean" to clean up build files
@@ -30,8 +42,8 @@
 
 # Usage
 - ## Run with command line arguments (\<dollarInput> / -g)
-  ```console
-  $ ./changeMachine <dollarInput>
+  ```bash
+  ./changeMachine <dollarInput>
   ```
   - Runs the program a single time with given command line argument
     - "dollarInput" should be in the form "*.XX"
@@ -40,14 +52,14 @@
         - '.' is the "decimal place" delimiter
         - 'XX' is any integer [0-99]  
   
-  ```console
-  $ ./changeMachine -g
+  ```bash
+  ./changeMachine -g
   ```
   - Runs the program with a gui
     - Interactive input, output updates dynamically
 - ## Run without command line arguments
-  ```console
-  $ ./changeMachine
+  ```bash
+  ./changeMachine
   ```
   - Program will prompt the user for input (Same as with command line arguments).
   - Program will run indefinitly (Maybe), until user decides to exit.

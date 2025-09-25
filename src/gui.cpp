@@ -96,7 +96,7 @@ int startGUIApplication(){
     }
 
     //create window
-    GLFWwindow* window = glfwCreateWindow(350, 450, "Denomination Calculator", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(350, 460, "Denomination Calculator", nullptr, nullptr);
     if(window == nullptr){
         return 1;
     }
