@@ -1,4 +1,4 @@
-#include "gui.h"
+#include "changeMachine.h"
 
 int main(int argc, char* argv[]){
 
@@ -12,12 +12,9 @@ int main(int argc, char* argv[]){
                 break;
             //have argument
             case 2:
-                //check if gui is selected
-                if((std::string)argv[1] != "-g"){
+                //check if noguibranch only terminal
                 result = run2(argv[1]);
-                }else{
-                result = startGUIApplication();
-                }
+
 
                 break;
             //if the user gives more the one argument nothing is ran and program exits

@@ -5,6 +5,8 @@
 extern "C"{
 #endif
     #include <stdbool.h>
+    #include <stdio.h>
+    #include <stdlib.h>
 
     typedef struct {
         unsigned long long oneHundred;

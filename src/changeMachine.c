@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+
 #include <string.h>
 
 #include <errno.h>
@@ -216,33 +215,4 @@ int run2(char* uInput){
     free(left);
     free(right);
     return 0;
-}
-
-//used to calculate the denominations when gui flag is set
-denominationResult run3(char* uInput){
-
-    unsigned long long * left = malloc(sizeof(unsigned long long));
-    unsigned int * right = malloc(sizeof(unsigned int));
-    denominationResult result;
-    char leftString[32] = "";
-    char rightString[8] = "";
-
-    int inputResult = sscanf(uInput, "%[0-9].%2[0-9]", leftString, rightString);
-    
-    if(!convertToNums(left, right, leftString, rightString)){
-       free(left);
-       free(right);
-       //just return all zero's in array, and -1 in onehundred used to check for overflow
-       result.oneHundred = -1;
-       result.denominations = malloc(sizeof(unsigned int) * 10);
-       memset(result.denominations, 0, sizeof(unsigned int) * 10);
-       return result;
-    }
-    
-    result = calculateDenominations(left, right);
-    
-    //free malloced memory, result.denominations will be freed in startGuiApplication
-    free(left);
-    free(right);
-    return result;
 }

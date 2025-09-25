@@ -1,8 +1,11 @@
 *.bat
 *.txt
 *.sh
-!install.sh
 *.out
 test.c
 main.c
 .vscode
+./thirdParty
+./include/gui.h
+./src/gui.cpp
+imgui.ini
