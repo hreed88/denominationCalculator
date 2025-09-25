@@ -25,6 +25,11 @@ int checkUInputCallback(ImGuiInputTextCallbackData* data){
     if(data->EventFlag == ImGuiInputTextFlags_CallbackAlways){
         cursorLocation = data->CursorPos;
         length = data->BufTextLen;
+        //reset counters
+        if(data->BufTextLen == 0){
+            numOfDecimal = 0;
+            dotInserted = false;
+        }
     }
     
     //handle deletions
